@@ -25,8 +25,9 @@ class CurrencyField(DecimalField):
         case we don't use South.
         """
         # We'll just introspect the _actual_ field.
-        from south.modelsinspector import introspector
-        field_class = "django.db.models.fields.DecimalField"
-        args, kwargs = introspector(self)
-        # That's our definition!
-        return (field_class, args, kwargs)
+        # from south.modelsinspector import introspector
+        # field_class = "django.db.models.fields.DecimalField"
+        # args, kwargs = introspector(self)
+        # # That's our definition!
+        # return (field_class, args, kwargs)
+        pass
