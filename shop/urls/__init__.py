@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 
 from shop.views import ShopTemplateView
 
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', ShopTemplateView.as_view(template_name="shop/welcome.html"),
         name='shop_welcome'),
     (r'^pay/', include('shop.payment.urls')),
@@ -12,5 +12,5 @@ urlpatterns = patterns('',
     (r'^orders/', include('shop.urls.order')),
     (r'^checkout/', include('shop.urls.checkout')),
     (r'^cart/', include('shop.urls.cart')),
-    (r'^products/', include('shop.urls.catalog')),
-    )
+    (r'^products/', include('shop.urls.catalog'))
+]
