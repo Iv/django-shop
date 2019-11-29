@@ -135,7 +135,7 @@ class BaseCart(models.Model):
         >>> self.items[1].quantity
         1
         """
-        from shop.models import CartItem
+        from shop.models.defaults.cartitem import CartItem
 
         # check if product can be added at all
         if not getattr(product, 'can_be_added_to_cart', True):
@@ -210,7 +210,8 @@ class BaseCart(models.Model):
         that for the order items (since they are legally binding after the
         "purchase" button was pressed)
         """
-        from shop.models import CartItem, Product
+        from shop.models.defaults.cartitem import CartItem
+        from shop.models.defaults.product import Product
 
         # This is a ghetto "select_related" for polymorphic models.
         items = CartItem.objects.filter(cart=self).order_by('pk')
@@ -393,7 +394,7 @@ class BaseOrder(models.Model):
         """
         The amount paid is the sum of related orderpayments
         """
-        from shop.models import OrderPayment
+        from shop.models.addressmodel import OrderPayment
         sum_ = OrderPayment.objects.filter(order=self).aggregate(
                 sum=Sum('amount'))
         result = sum_.get('sum')
@@ -404,7 +405,7 @@ class BaseOrder(models.Model):
 
     @property
     def shipping_costs(self):
-        from shop.models import ExtraOrderPriceField
+        from shop.models.ordermodel import ExtraOrderPriceField
         sum_ = Decimal('0.0')
         cost_list = ExtraOrderPriceField.objects.filter(order=self).filter(
                 is_shipping=True)
