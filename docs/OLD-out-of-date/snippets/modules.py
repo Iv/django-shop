@@ -2,7 +2,7 @@
 # django_shop/checkout/__init__.py
 
 
-from django_shop.checkout.site import CheckoutSite, checkoutsite
+from shop.checkout.site import CheckoutSite, checkoutsite
 
 def autodiscover():
     """
