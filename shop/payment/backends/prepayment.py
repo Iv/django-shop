@@ -3,7 +3,7 @@ from decimal import Decimal
 from datetime import date
 from django.conf.urls import patterns, url
 from django.template import RequestContext
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.shortcuts import render_to_response
 from shop.models.ordermodel import Order, OrderPayment
 from shop.models.cartmodel import Cart

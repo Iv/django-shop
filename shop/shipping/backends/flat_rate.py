@@ -5,7 +5,7 @@ from django.conf import settings
 from django.conf.urls import patterns, url
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from shop.util.decorators import on_method, shop_login_required, order_required
 
