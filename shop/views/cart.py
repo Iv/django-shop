@@ -77,8 +77,11 @@ class CartItemDetail(ShopView):
         """
         Generic hook by default redirects to cart
         """
-        if self.request.is_ajax():
-            return HttpResponse('Ok<br />')
+        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest' or self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            from django.http import JsonResponse
+            from shop.util.cart import get_or_create_cart
+            cart = get_or_create_cart(self.request)
+            return JsonResponse({'status': 'ok', 'cart_total_quantity': cart.total_quantity})
         else:
             return HttpResponseRedirect(reverse('cart'))
 

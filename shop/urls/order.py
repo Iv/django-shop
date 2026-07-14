@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.urls import re_path as url
 from shop.views.order import OrderListView, OrderDetailView
 
 urlpatterns = [

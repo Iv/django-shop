@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from decimal import Decimal
 from datetime import date
-from django.conf.urls import patterns, url
+from django.urls import re_path as url
 from django.template import RequestContext
 from django.utils.translation import gettext_lazy as _
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from shop.models.ordermodel import Order, OrderPayment
 from shop.models.cartmodel import Cart
 from shop.util.decorators import on_method, order_required
@@ -20,9 +20,9 @@ class ForwardFundBackend(object):
         self.shop = shop
 
     def get_urls(self):
-        urlpatterns = patterns('',
+        urlpatterns = [
             url(r'^$', self.advance_payment_view, name='advance-payment'),
-        )
+        ]
         return urlpatterns
 
     @on_method(order_required)
@@ -36,9 +36,8 @@ class ForwardFundBackend(object):
         amount = self.shop.get_order_total(order)
         transaction_id = date.today().strftime('%Y') + '%06d' % order.id
         self._create_confirmed_order(order, transaction_id)
-        context = RequestContext(request, {'order': order, 'amount': amount,
+        return render(request, self.template, {'order': order, 'amount': amount,
             'transaction_id': transaction_id, 'next_url': self.shop.get_finished_url()})
-        return render_to_response(self.template, context)
 
     def _create_confirmed_order(self, order, transaction_id):
         """

@@ -91,7 +91,7 @@ class BaseCart(models.Model):
         verbose_name = _('Cart')
         verbose_name_plural = _('Carts')
 
-    def __init__(self, on_delete = models.CASCADE, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(BaseCart, self).__init__(*args, **kwargs)
         # That will hold things like tax totals or total discount
         self.subtotal_price = Decimal('0.0')
@@ -305,7 +305,10 @@ class BaseCartItem(models.Model):
 
     def update(self, request):
         self.extra_price_fields = []  # Reset the price fields
-        self.line_subtotal = self.product.get_price() * self.quantity
+        price = self.product.get_price()
+        if price is None:
+            price = Decimal('0.0')
+        self.line_subtotal = price * self.quantity
         self.current_total = self.line_subtotal
 
         for modifier in cart_modifiers_pool.get_modifiers_list():
